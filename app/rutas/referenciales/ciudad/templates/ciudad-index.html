@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+    
 {% block titulo %}
 Ciudades
 {% endblock %}
@@ -18,7 +18,7 @@ Ciudades
 
     <!-- Tabla -->
     <div class="row">
-        <!-- columna de la mascota -->
+        <!-- columna  -->
         <div class="col col-md-12">
 
             <table class="table table-striped">
@@ -71,15 +71,15 @@ Ciudades
     debugger;
     fetch('/referenciales/ciudad/get-ciudades')
       .then(function(r) {
-        debugger;
+        //debugger;
         return r.json();
       })
       .then(function(data) {
-        debugger;
+        //debugger;
         console.log(data);
       })
       .catch(function(err) {
-        debugger;
+        //debugger;
         console.error(err);
       })
 
