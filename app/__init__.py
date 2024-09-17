@@ -11,8 +11,15 @@ modulo0 = '/referenciales'
 app.register_blueprint(ciumod, url_prefix=f'{modulo0}/ciudad')
 app.register_blueprint(paimod, url_prefix=f'{modulo0}/paises')
 
+#ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi
+
+#pais
+from app.rutas.referenciales.paises.pais_api import paisapi
 
 # APIS v1
 version1 = '/api/v1'
 app.register_blueprint(ciuapi, url_prefix=version1)
+
+version1 = '/api/v1'
+app.register_blueprint(paisapi, url_prefix=version1)
