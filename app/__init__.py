@@ -8,6 +8,7 @@ from app.rutas.referenciales.paises.pais_routes import paimod   #pais
 from app.rutas.referenciales.correo.correo_routes import cormod #correo
 from app.rutas.referenciales.direccion.direccion_routes import diremod #direccion
 from app.rutas.referenciales.telefono.telefono_routes import telmod  #telefono
+from app.rutas.referenciales.nacionalidad.nacionalidad_routes import naciomod  #nacionalidad
 
 
 # registrar referenciales
@@ -17,7 +18,8 @@ app.register_blueprint(paimod, url_prefix=f'{modulo0}/paises') #pais
 app.register_blueprint(cormod, url_prefix=f'{modulo0}/correo') #correo
 app.register_blueprint(diremod, url_prefix=f'{modulo0}/direccion') #direccion
 app.register_blueprint(telmod, url_prefix=f'{modulo0}/direccion')  #telefono
-
+app.register_blueprint(naciomod, url_prefix=f'{modulo0}/nacionalidad')  #nacionalidad
+ 
 #ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi
 
@@ -32,6 +34,9 @@ from.rutas.referenciales.direccion.direccion_api import direapi
 
 #telefono
 from app.rutas.referenciales.telefono.telefono_api import telapi
+
+#nacionalidad
+from app.rutas.referenciales.nacionalidad.nacionalidad_api import nacioapi
 
 # APIS v1
 #Ciudad
@@ -53,3 +58,7 @@ app.register_blueprint(direapi, url_prefix=version1)
 #telefono
 version1 = '/api/v1'
 app.register_blueprint(telapi, url_prefix=version1)
+
+#nacionalidad
+version1 = '/api/v1'
+app.register_blueprint(nacioapi, url_prefix=version1)
