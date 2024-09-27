@@ -12,6 +12,7 @@ from app.rutas.referenciales.sexo.sexo_routes import sexmod  #sexo
 from app.rutas.referenciales.estado_cita.estado_cita_routes import estacitmod  #estado de la cita
 from app.rutas.referenciales.persona.persona_routes import persmod  #persona
 from app.rutas.referenciales.especialidad.especialidad_routes import especimod  #especialidad
+from app.rutas.referenciales.dia.dia_routes import diamod  #dia
 
 # registrar referenciales
 modulo0 = '/referenciales'
@@ -24,6 +25,7 @@ app.register_blueprint(sexmod, url_prefix=f'{modulo0}/sexo')  #sexo
 app.register_blueprint(estacitmod, url_prefix=f'{modulo0}/estadocita')  #estado de la cita
 app.register_blueprint(persmod, url_prefix=f'{modulo0}/persona') #persona
 app.register_blueprint(especimod, url_prefix=f'{modulo0}/especialidad') #especialidad
+app.register_blueprint(diamod, url_prefix=f'{modulo0}/dia') #dia
 
 #ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi
@@ -51,6 +53,9 @@ from app.rutas.referenciales.persona.persona_api import persapi
 
 #especialidad
 from app.rutas.referenciales.especialidad.especialidad_api import especiapi
+
+#dia
+from app.rutas.referenciales.dia.dia_api import diaapi
 
 # APIS v1
 #Ciudad
@@ -88,3 +93,7 @@ app.register_blueprint(persapi, url_prefix=version1)
 #especialidad
 version1 = '/api/v1'
 app.register_blueprint(especiapi, url_prefix=version1)
+
+#dia
+version1 = '/api/v1'
+app.register_blueprint(diaapi, url_prefix=version1)
