@@ -16,6 +16,7 @@ from app.rutas.referenciales.dia.dia_routes import diamod  #dia
 from app.rutas.referenciales.duracion_consulta.duracion_consulta_routes import duraconsumod  #duracion de la consulta
 from app.rutas.referenciales.instrumento.instrumento_routes import instmod  #instrumento utilizado
 from app.rutas.referenciales.turno.turno_routes import turmod  #turno
+from app.rutas.referenciales.tratamiento.tratamiento_routes import tratmod  #tratamiento
 
 # registrar referenciales
 modulo0 = '/referenciales'
@@ -32,6 +33,7 @@ app.register_blueprint(diamod, url_prefix=f'{modulo0}/dia') #dia
 app.register_blueprint(duraconsumod, url_prefix=f'{modulo0}/duracionconsulta') #duracion de la consulta
 app.register_blueprint(instmod, url_prefix=f'{modulo0}/instrumento') #instrumento utilizado
 app.register_blueprint(turmod, url_prefix=f'{modulo0}/turno') #turno
+app.register_blueprint(tratmod, url_prefix=f'{modulo0}/tratamiento') #tratamiento
 
 #ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi
@@ -69,8 +71,13 @@ from app.rutas.referenciales.duracion_consulta.duracion_consulta_api import dura
 #instrumento utilizado
 from app.rutas.referenciales.instrumento.instrumento_api import instapi
 
-#dia
+#turno
 from app.rutas.referenciales.turno.turno_api import turnoapi
+
+#tratamiento
+from app.rutas.referenciales.tratamiento.tratamiento_api import tratapi
+
+
 
 # APIS v1
 #Ciudad
@@ -124,3 +131,7 @@ app.register_blueprint(instapi, url_prefix=version1)
 #turno
 version1 = '/api/v1'
 app.register_blueprint(turnoapi, url_prefix=version1)
+
+#tratamiento
+version1 = '/api/v1'
+app.register_blueprint(tratapi, url_prefix=version1)
