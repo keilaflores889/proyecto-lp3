@@ -17,7 +17,11 @@ Persona
         <table class="table table-striped" id="tbl">
           <thead>
             <tr>
-              <th>Descripción</th>
+              <th>Nombre</th>
+              <th>Apellido</th> <!-- Agregado campo 'apellido' -->
+              <th>Fecha de Nacimiento</th>
+              <th>N° C.I.</th>
+              <th>Correo</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -43,8 +47,21 @@ Persona
           <div class="modal-body">
             <div class="form-group">
               <input type="hidden" id="txtIdPersona">
-              <label for="txtDescripcion">Descripción:</label>
-              <input type="text" class="form-control" placeholder="Ingrese a la persona" id="txtDescripcion">
+              <label for="txtNombre">Nombre:</label>
+              <input type="text" class="form-control" placeholder="Ingrese el nombre de la persona" id="txtNombre">
+
+              <label for="txtApellido">Apellido:</label>
+              <input type="text" class="form-control" placeholder="Ingrese el apellido" id="txtApellido">
+
+              <label for="txtFechaNacimiento">Fecha de nacimiento:</label>
+              <input type="text" class="form-control" placeholder="Ingresar fecha de nacimiento" id="txtFechaNacimiento">
+
+              <label for="txtCedula">Cédula:</label>
+              <input type="text" class="form-control" placeholder="Ingrese el C.I de la persona" id="txtCedula">
+
+              <label for="txtCorreo">Correo:</label>
+              <input type="text" class="form-control" placeholder="Ingresar correo" id="txtCorreo">
+
             </div>
           </div>
 
@@ -71,7 +88,6 @@ Persona
 
 {% block js %}
 <script>
-
   const initDatatable = () => {
     $('#tbl').DataTable({
       language: {
@@ -79,7 +95,11 @@ Persona
       },
       ajax:'/api/v1/personas',
       columns: [
-        { data: 'descripcion' },
+        { data: 'nombre' }, // Agregado campo 'nombre'
+        { data: 'apellido' }, // Agregado campo 'apellido'
+        { data: 'fechanacimiento' },
+        { data: 'cedula' },
+        { data: 'correo' },
         { data: function(row) {
             return `<button type="button" name="btn_editar" class="btn btn-info" data-id="${row.id}">Editar</button>
                     <button type="button" name="btn_eliminar" class="btn btn-warning" data-id="${row.id}">Eliminar</button>`
@@ -91,11 +111,13 @@ Persona
 
   const agregar = () => {
     $('#btnAgregar').on('click', function(){
-      // Setear un título a modal
       $('#modalTitle').text("Agregar Persona");
-      // inicia ventana modal
       $('#txtIdPersona').val("");
-      $('#txtDescripcion').val("");
+      $('#txtNombre').val(""); // Limpiar campo nombre
+      $('#txtApellido').val(""); // Limpiar campo apellido
+      $('#txtFechaNacimiento').val("");
+      $('#txtCedula').val("");
+      $('#txtCorreo').val("");
       $('#modalFormulario').modal();
     });
   }
@@ -103,7 +125,11 @@ Persona
   const guardar = () => {
     $('#btnGuardar').on('click', function() {
       const idPersona = $('#txtIdPersona').val();
-      const nuevaDescripcion = $('#txtDescripcion').val();
+      const nuevoNombre = $('#txtNombre').val(); // Obtener nombre
+      const nuevoApellido = $('#txtApellido').val(); // Obtener apellido
+      const nuevoFechaNacimiento = $('#txtFechaNacimiento').val();
+      const nuevaCedula = $('#txtCedula').val();
+      const nuevoCorreo = $('#txtCorreo').val();
       const tabla = $('#tbl').DataTable();
 
       if(idPersona) {
@@ -112,7 +138,7 @@ Persona
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
-          }, body: JSON.stringify({ descripcion: nuevaDescripcion})
+          }, body: JSON.stringify({ nombre: nuevoNombre, apellido: nuevoApellido, fechanacimiento: nuevoFechaNacimiento, cedula: nuevaCedula, correo: nuevoCorreo }) // Incluir nombre y apellido
         })
         .then(resp => resp.json())
         .then(data => {
@@ -132,13 +158,13 @@ Persona
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }, body: JSON.stringify({ descripcion: nuevaDescripcion})
+          }, body: JSON.stringify({ nombre: nuevoNombre, apellido: nuevoApellido, fechanacimiento: nuevoFechaNacimiento, cedula: nuevaCedula, correo: nuevoCorreo }) // Incluir nombre y apellido
         })
         .then(resp => resp.json())
         .then(data => {
           if(data && !data.error && data.success) {
             tabla.ajax.reload();
-            Swal.fire("Actualizado", "La persona ha sido agregada correctamente.", "success");
+            Swal.fire("Agregado", "La persona ha sido agregada correctamente.", "success");
           } else {
             Swal.fire(data.error);
           }
@@ -147,14 +173,17 @@ Persona
           Swal.fire("Error", "Ocurrió un error al guardar persona.", "error");
         });
       }
-      $('#txtDescripcion').val("");
+      $('#txtNombre').val(""); // Limpiar campo nombre
+      $('#txtApellido').val(""); // Limpiar campo apellido
+      $('#txtFechaNacimiento').val("");
+      $('#txtCedula').val("");
+      $('#txtCorreo').val("");
       $('#modalFormulario').modal("hide");
     });
   }
 
   const editar = () => {
     $('#tbl').on('click', 'button[name="btn_editar"]',function(){
-      // Mostrar mensaje de confirmación usando sweetalert
       Swal.fire({
         title: "¿Deseas editar este registro?",
         showCancelButton: true,
@@ -162,13 +191,11 @@ Persona
         cancelButtonText: `No`
       }).then((result) => {
         if (result.isConfirmed) {
-          //Swal.fire("Saved!", "", "success");
           $('#modalTitle').text("Editar Persona");
 
           const idPersona = $(this).data('id');
           $('#txtIdPersona').val(idPersona);
 
-          // Necesitamos obtener la descripción del backend
           fetch(`/api/v1/personas/${idPersona}`, {
             method: 'GET',
             headers: {
@@ -177,7 +204,11 @@ Persona
           })
           .then(resp => resp.json())
           .then(data => {
-            $('#txtDescripcion').val(data.data.descripcion);
+            $('#txtNombre').val(data.data.nombre); // Obtener nombre
+            $('#txtApellido').val(data.data.apellido); // Obtener apellido
+            $('#txtFechaNacimiento').val(data.data.fechanacimiento);
+            $('#txtCedula').val(data.data.cedula);
+            $('#txtCorreo').val(data.data.correo);
             $('#modalFormulario').modal();
           });
         }
@@ -188,7 +219,6 @@ Persona
   const eliminar = () => {
     $('#tbl').on('click', 'button[name="btn_eliminar"]',function(){
       const idPersona = $(this).data('id');
-      // Mostrar mensaje de confirmación usando sweetalert
       Swal.fire({
         title: "¿Deseas eliminar este registro?",
         showCancelButton: true,
@@ -205,11 +235,10 @@ Persona
           .then(resp => resp.json())
           .then(data => {
             if(data && !data.error && data.success) {
-              // Para borrar la fila del datatable(cliente)
-              const fila =$(this).closest('tr');
+              const fila = $(this).closest('tr');
               const tabla = $('#tbl').DataTable();
               tabla.row(fila).remove().draw();
-              Swal.fire("Eliminado", "", data.success);
+              Swal.fire("Eliminado", "", "success");
             } else {
               Swal.fire(data.error);
             }
@@ -218,7 +247,6 @@ Persona
           });
         }
       });
-
     });
   }
 
