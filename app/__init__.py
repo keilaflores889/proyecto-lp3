@@ -3,6 +3,8 @@ from flask import Flask
 app = Flask(__name__)
 
 # importar referenciales
+from app.rutas.login.login_routes import loginmod
+from app.rutas.login.vista_routes import vistamod
 from app.rutas.referenciales.ciudad.ciudad_routes import ciumod #ciudad
 from app.rutas.referenciales.paises.pais_routes import paimod   #pais
 from app.rutas.referenciales.nacionalidad.nacionalidad_routes import naciomod  #nacionalidad
@@ -21,6 +23,8 @@ from app.rutas.referenciales.diagnostico.diagnostico_routes import diagmod  #dia
 
 # registrar referenciales
 modulo0 = '/referenciales'
+app.register_blueprint(loginmod, url_prefix=f'{modulo0}/login') 
+app.register_blueprint(vistamod, url_prefix=f'{modulo0}/login') 
 app.register_blueprint(ciumod, url_prefix=f'{modulo0}/ciudad') #ciudad
 app.register_blueprint(paimod, url_prefix=f'{modulo0}/paises') #pais
 app.register_blueprint(naciomod, url_prefix=f'{modulo0}/nacionalidad')  #nacionalidad
