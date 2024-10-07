@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
@@ -147,3 +148,8 @@ app.register_blueprint(tratapi, url_prefix=version1)
 #diagnostico
 version1 = '/api/v1'
 app.register_blueprint(diagapi, url_prefix=version1)
+
+
+@app.route('/login')
+def login():
+    return render_template('login-index.html')
