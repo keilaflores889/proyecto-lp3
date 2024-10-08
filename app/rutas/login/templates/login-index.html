@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: Arial, sans-serif; 
-            background-color: #f4f4f4;  /* Color de fondo de la página */
+            background: linear-gradient(135deg, #1c79c4, #338783, #2082d3, #38918d);  /* Color de fondo de la página */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,13 +18,14 @@
             margin: 0;
         }
         .login-container {
-            background-color: rgb(73, 188, 192); /* Color de fondo del container */
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            background: linear-gradient(135deg, #38B2AC, #4299E1);  /* Degradado de colores turquesa y azul */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);  /* Sombra */
+            width: 320px;
+            text-align: left;
         }
-
+        
         .login-container h2 {
             text-align: center;
             margin-bottom: 30px;
@@ -42,7 +43,7 @@
         .login-container input[type="submit"] {
             width: 100%;
             padding: 10px;
-            background-color: #457aa0;
+            background-color: #0d5486;
             color: white;
             border: none;
             border-radius: 7px;
@@ -50,7 +51,7 @@
         }
 
         .login-container input[type="submit"]:hover {
-            background-color: #21608d;
+            background-color: #0c3756;
         }
 
         .login-container .message {
@@ -62,7 +63,8 @@
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
-        <form action="/login" method="POST">
+
+        <form action="{{ url_for('vista') }}" method="POST" onsubmit="return redirectToPage();">
             <label for="username">Usuario:</label>
             <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" required>
 
@@ -71,11 +73,15 @@
 
             <input type="submit" value="Iniciar Sesión">
         </form>
-
-        <div class="message">
-            <p>¿No tienes una cuenta? <a href="/register">Regístrate</a></p>
-        </div>
-    </div>
+    
+    <script>
+        function redirectToPage() {
+            // Aquí puedes poner la URL a la que deseas redirigir
+            window.location.href = "{{ url_for('vista.vistaIndex') }}"; // Reemplaza 'nueva_pagina' por la ruta deseada
+            return false; // Evita el envío del formulario
+        }
+    </script>
+ </div>
 
 </body>
 </html>

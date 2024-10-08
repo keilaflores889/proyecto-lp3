@@ -150,6 +150,17 @@ version1 = '/api/v1'
 app.register_blueprint(diagapi, url_prefix=version1)
 
 
+
+
+
+
+
+
+
 @app.route('/login')
 def login():
     return render_template('login-index.html')
+
+@app.route('/vista')
+def vista():
+    return render_template('vista-index.html')
