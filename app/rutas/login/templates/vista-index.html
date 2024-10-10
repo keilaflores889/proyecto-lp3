@@ -1,24 +1,59 @@
 {% extends 'base.html' %}
-
+    
 {% block titulo %}
-    LP3 
+lp3
 {% endblock %}
 
 {% block contenido %}
-<h1>lp3</h1>
-<div>
-    <!-- Mostrar la imagen en el contenido -->
-    <img src="{{ url_for('static', filename='img/fondo.jpg') }}" alt="" style="width: 95%; height:auto;">
-</div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #6aa5a6;
+        }
+
+        .welcome-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #00acc1;
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 100px;
+            margin: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-text {
+            max-width: 50%;
+            text-align:right;
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5em;
+            margin: 10px 0;
+            text-align: right;
+        }
+
+        .welcome-text p {
+            font-size: 1.2em;
+            margin: 10px 0;
+            text-align: center;
+        }
+    </style>
+<body>
+    <div class="welcome-banner">
+        <div class="welcome-text">
+            <p>Bienvenidos a mi proyecto</p>
+            <h1>LENGUAJE</h1>
+            <h1>DE</h1>
+            <h1>PROGRAMACIÓN</h1>
+            <h1>- 3 -</h1>
+        </div>
+    </div>
+</head>
+</body>
+
 {% endblock %}
-<style>
-    body {
-        background-image: url("{{ url_for('static', filename='imag/fondo.jpg') }}");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-    }
-</style>
