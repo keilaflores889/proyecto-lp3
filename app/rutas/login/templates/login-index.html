@@ -64,7 +64,7 @@
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
 
-        <form action="{{ url_for('vista') }}" method="POST" onsubmit="return redirectToPage();">
+        <form  method="POST"  onsubmit="return validarCredenciales();">
             <label for="username">Usuario:</label>
             <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" required>
 
@@ -73,14 +73,40 @@
 
             <input type="submit" value="Iniciar Sesión">
         </form>
+
+        <script>
+            function validarCredenciales() {
+                // Definir usuario y contraseña correctos
+                const usuarioCorrecto = "KEILA";
+                const contrasenaCorrecta = "123";
+
+                // Obtener valores ingresados
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+
+                // Validar credenciales
+                if (username === usuarioCorrecto && password === contrasenaCorrecta) {
+                    alert("Inicio de sesión exitoso.");
+                    // Redirigir a otra página si es necesario
+                    window.location.href = "vista-index.html";
+                } else {
+                    alert("Usuario o contraseña incorrectos.");
+                }
+
+                return false; // Evita el envío del formulario
+            }
+        </script>
+    </div>
+</body>
+</html>
     
-    <script>
+    <!-- <script>
         function redirectToPage() {
             // Aquí puedes poner la URL a la que deseas redirigir
             window.location.href = "{{ url_for('vista.vistaIndex') }}"; // Reemplaza 'nueva_pagina' por la ruta deseada
             return false; // Evita el envío del formulario
         }
-    </script>
+    </script> -->
  </div>
 
 </body>
