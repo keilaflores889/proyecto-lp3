@@ -64,7 +64,7 @@
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
 
-        <form  method="POST"  onsubmit="return validarCredenciales();">
+        <form action="{{ url_for('login.login') }}"  method="POST"  onsubmit="return validarCredenciales();">
             <label for="username">Usuario:</label>
             <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" required>
 
@@ -73,22 +73,22 @@
 
             <input type="submit" value="Iniciar Sesión">
         </form>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
         <script>
             function validarCredenciales() {
                 // Definir usuario y contraseña correctos
                 const usuarioCorrecto = "KEILA";
-                const contrasenaCorrecta = "123";
+                const contrasenaCorrecta = "12345678";
 
                 // Obtener valores ingresados
                 const username = document.getElementById("username").value;
                 const password = document.getElementById("password").value;
 
                 // Validar credenciales
-                if (username === usuarioCorrecto && password === contrasenaCorrecta) {
-                    alert("Inicio de sesión exitoso.");
+                if (username === usuarioCorrecto && password === contrasenaCorrecta) { 
                     // Redirigir a otra página si es necesario
-                    window.location.href = "vista-index.html";
+                    window.location.href = "{{ url_for('vista.vistaIndex') }}";
                 } else {
                     alert("Usuario o contraseña incorrectos.");
                 }

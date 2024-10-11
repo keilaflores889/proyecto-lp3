@@ -1,22 +1,15 @@
-# from flask import Blueprint, render_template
-
-
-# @loginmod.route('/login-index')
-# def loginIndex():
-#     return render_template('login-index.html')
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask import Blueprint, render_template
 from flask import Blueprint 
 
 loginmod = Blueprint('login', __name__, template_folder='templates')
-# usuariomod = Blueprint('usuario', __name__, template_folder='templates')
+
 app = Flask(__name__)
 app.secret_key = 'clave_secreta'
 
 # Usuario y contraseña predefinidos
 USUARIO_CORRECTO = "KEILA"
-CONTRASENA_CORRECTA = "123"
+CONTRASENA_CORRECTA = "12345678"
 
 @loginmod.route('/login', methods=['GET', 'POST'])
 def login():
@@ -27,12 +20,12 @@ def login():
         # Validar usuario y contraseña
         if username == USUARIO_CORRECTO and password == CONTRASENA_CORRECTA:
             flash('Inicio de sesión exitoso.')
-            return redirect(url_for('vista'))
+            return redirect(url_for('vista.html'))
         else:
             flash('Usuario o contraseña incorrectos.')
             return redirect(url_for('login'))
 
-    return render_template('vista-index.html')
+    return render_template('login-index.html')
 
 @loginmod.route('/vista')
 def vistaIndex():
