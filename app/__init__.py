@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 # importar referenciales
 from app.rutas.login.login_routes import loginmod
-from app.rutas.login.usuario_routes import usuariomod 
 from app.rutas.login.vista_routes import vistamod
 from app.rutas.referenciales.ciudad.ciudad_routes import ciumod #ciudad
 from app.rutas.referenciales.paises.pais_routes import paimod   #pais
@@ -24,8 +23,7 @@ from app.rutas.referenciales.tratamiento.tratamiento_routes import tratmod  #tra
 from app.rutas.referenciales.diagnostico.diagnostico_routes import diagmod  #diagnostico
 
 # registrar referenciales
-modulo0 = '/referenciales'
-app.register_blueprint(usuariomod, url_prefix=f'{modulo0}/vista') 
+modulo0 = '/referenciales' 
 app.register_blueprint(loginmod, url_prefix=f'{modulo0}/login') 
 app.register_blueprint(vistamod, url_prefix=f'{modulo0}/login') 
 app.register_blueprint(ciumod, url_prefix=f'{modulo0}/ciudad') #ciudad
