@@ -22,6 +22,12 @@ from app.rutas.referenciales.turno.turno_routes import turmod  #turno
 from app.rutas.referenciales.tratamiento.tratamiento_routes import tratmod  #tratamiento
 from app.rutas.referenciales.diagnostico.diagnostico_routes import diagmod  #diagnostico
 
+#importacion de cita
+from app.rutas.Agendamiento.cita.cita_routes import citamod   # Cita
+
+
+
+
 # registrar referenciales
 modulo0 = '/referenciales' 
 app.register_blueprint(loginmod, url_prefix=f'{modulo0}/login') 
@@ -41,6 +47,12 @@ app.register_blueprint(instmod, url_prefix=f'{modulo0}/instrumento') #instrument
 app.register_blueprint(turmod, url_prefix=f'{modulo0}/turno') #turno
 app.register_blueprint(tratmod, url_prefix=f'{modulo0}/tratamiento') #tratamiento
 app.register_blueprint(diagmod, url_prefix=f'{modulo0}/diagnostico') #diagnostico
+
+# registrar agendamientos
+modulo0 = '/agendamientos'
+app.register_blueprint(citamod, url_prefix=f'{modulo0}/cita')  # cita
+
+
 
 #ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi
@@ -86,6 +98,10 @@ from app.rutas.referenciales.tratamiento.tratamiento_api import tratapi
 
 #diagnostico
 from app.rutas.referenciales.diagnostico.diagnostico_api import diagapi
+
+#cita
+from app.rutas.Agendamiento.cita.cita_api import citaapi
+
 
 
 # APIS v1
@@ -149,6 +165,9 @@ app.register_blueprint(tratapi, url_prefix=version1)
 version1 = '/api/v1'
 app.register_blueprint(diagapi, url_prefix=version1)
 
+# Cita
+version1 = '/api/v1'
+app.register_blueprint(citaapi, url_prefix=version1)
 
 
 
