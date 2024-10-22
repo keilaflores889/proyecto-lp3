@@ -43,6 +43,35 @@ lp3
             text-align: center;
         }
     </style>
+
+    <style>
+        /* Contenedor para los botones */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 10px;
+        }
+    
+        /* Estilo base para los botones con un color azul oscuro */
+        .large-button {
+            
+            max-width: 100%;
+            margin: 10px;
+            padding: 50px;
+            color: #ededed; /* Color del texto  */
+            border: 2px solid #d1d1d1;
+            text-align: left;
+            box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.957); /* Sombra */
+        }
+    
+       
+    
+        
+    
+    </style>
+
+
 <body>
     <div class="welcome-banner">
         <div class="welcome-text">
@@ -52,6 +81,10 @@ lp3
             <h1>PROGRAMACIÓN</h1>
             <h1>- 3 -</h1>
         </div>
+        
+            <div class="button-container">
+                <a class="large-button" href="{{ url_for('cita.citaIndex') }}">Agendamiento Médico</a>
+            </div>
     </div>
 </head>
 </body>
