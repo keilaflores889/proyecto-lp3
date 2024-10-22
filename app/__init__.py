@@ -19,6 +19,11 @@ from app.rutas.referenciales.turno.turno_routes import turmod  #turno
 from app.rutas.referenciales.tratamiento.tratamiento_routes import tratmod  #tratamiento
 from app.rutas.referenciales.diagnostico.diagnostico_routes import diagmod  #diagnostico
 
+# importar gestionar compras
+from app.rutas.gestionar_compras.registrar_pedido_compras.registrar_pedidos_compras_routes \
+    import pdcmod
+
+
 # registrar referenciales
 modulo0 = '/referenciales'
 app.register_blueprint(ciumod, url_prefix=f'{modulo0}/ciudad') #ciudad
@@ -36,6 +41,11 @@ app.register_blueprint(instmod, url_prefix=f'{modulo0}/instrumento') #instrument
 app.register_blueprint(turmod, url_prefix=f'{modulo0}/turno') #turno
 app.register_blueprint(tratmod, url_prefix=f'{modulo0}/tratamiento') #tratamiento
 app.register_blueprint(diagmod, url_prefix=f'{modulo0}/diagnostico') #diagnostico
+
+# registro de modulos - gestionar compras
+modulo1 = '/gestionar-compras'
+app.register_blueprint(pdcmod, url_prefix=f'{modulo1}/registrar-pedido-compras')
+
 
 #ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi
@@ -82,64 +92,73 @@ from app.rutas.referenciales.tratamiento.tratamiento_api import tratapi
 #diagnostico
 from app.rutas.referenciales.diagnostico.diagnostico_api import diagapi
 
+#pedido de compra
+from app.rutas.gestionar_compras.registrar_pedido_compras.registrar_pedido_compras_api \
+    import pdcapi
+
 
 # APIS v1
 #Ciudad
-version1 = '/api/v1'
-app.register_blueprint(ciuapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(ciuapi, url_prefix=apiversion1)
 
 #Pais
-version1 = '/api/v1'
-app.register_blueprint(paisapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(paisapi, url_prefix=apiversion1)
 
 #nacionalidad
-version1 = '/api/v1'
-app.register_blueprint(nacioapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(nacioapi, url_prefix=apiversion1)
 
 #ocupacion
-version1 = '/api/v1'
-app.register_blueprint(ocupapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(ocupapi, url_prefix=apiversion1)
 
 #Estado civil
-version1 = '/api/v1'
-app.register_blueprint(estacivapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(estacivapi, url_prefix=apiversion1)
 
 #sexo
-version1 = '/api/v1'
-app.register_blueprint(sexapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(sexapi, url_prefix=apiversion1)
 
 #Estado de la cita
-version1 = '/api/v1'
-app.register_blueprint(estacitapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(estacitapi, url_prefix=apiversion1)
 
 #persona
-version1 = '/api/v1'
-app.register_blueprint(persapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(persapi, url_prefix=apiversion1)
 
 #especialidad
-version1 = '/api/v1'
-app.register_blueprint(especiapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(especiapi, url_prefix=apiversion1)
 
 #dia
-version1 = '/api/v1'
-app.register_blueprint(diaapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(diaapi, url_prefix=apiversion1)
 
 #duracion de la consulta
-version1 = '/api/v1'
-app.register_blueprint(duraconsuapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(duraconsuapi, url_prefix=apiversion1)
 
 #instrumento utilizado
-version1 = '/api/v1'
-app.register_blueprint(instapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(instapi, url_prefix=apiversion1)
 
 #turno
-version1 = '/api/v1'
-app.register_blueprint(turnoapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(turnoapi, url_prefix=apiversion1)
 
 #tratamiento
-version1 = '/api/v1'
-app.register_blueprint(tratapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(tratapi, url_prefix=apiversion1)
 
 #diagnostico
-version1 = '/api/v1'
-app.register_blueprint(diagapi, url_prefix=version1)
+apiversion1 = '/api/v1'
+app.register_blueprint(diagapi, url_prefix=apiversion1)
+
+
+# Gestionar compras API
+apiversion1 = '/api/v1'
+app.register_blueprint(pdcapi, url_prefix=f'{apiversion1}/{modulo1}/registrar-pedido-compras')
