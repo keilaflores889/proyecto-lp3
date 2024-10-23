@@ -20,8 +20,8 @@ from app.rutas.referenciales.tratamiento.tratamiento_routes import tratmod  #tra
 from app.rutas.referenciales.diagnostico.diagnostico_routes import diagmod  #diagnostico
 
 # importar gestionar compras
-from app.rutas.gestionar_compras.registrar_pedido_compras.registrar_pedidos_compras_routes \
-    import pdcmod
+from app.rutas.gestionar_compras.registrar_pedido_compras.registrar_pedidos_compras_routes  import pdcmod
+
 
 
 # registrar referenciales
