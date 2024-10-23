@@ -26,7 +26,7 @@ from app.rutas.referenciales.diagnostico.diagnostico_routes import diagmod  #dia
 from app.rutas.Agendamiento.cita.cita_routes import citamod   # Cita
 from app.rutas.Agendamiento.paciente.paciente_routes import paciemod
 from app.rutas.Agendamiento.consulta.consulta_routes import consumod
-
+from app.rutas.Agendamiento.vistaAGENDAR.vistaAGENDAR_routes import vistagendamod
 
 # registrar referenciales
 modulo0 = '/referenciales' 
@@ -53,6 +53,7 @@ modulo0 = '/agendamientos'
 app.register_blueprint(citamod, url_prefix=f'{modulo0}/cita')  # cita
 app.register_blueprint(paciemod, url_prefix=f'{modulo0}/cita')  # cita
 app.register_blueprint(consumod, url_prefix=f'{modulo0}/cita')  # cita
+app.register_blueprint(vistagendamod, url_prefix=f'{modulo0}/cita')  # cita
 
 #ciudad
 from app.rutas.referenciales.ciudad.ciudad_api import ciuapi

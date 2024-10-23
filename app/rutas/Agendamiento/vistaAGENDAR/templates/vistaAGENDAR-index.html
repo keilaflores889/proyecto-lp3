@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block contenido %}
+<div class="row">
+  <div class="col-md-6">
+      <div class="card">
+          <div class="card-body">
+              <h5>REGISTRAR PACIENTE</h5>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-6">
+      <div class="card">
+          <div class="card-body">
+              <h5>REGISTRAR CITA</h5>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="row my-6">
+    <div class="col-md-6">
+      <a href="{{ url_for('paciente.pacienteIndex') }}" class="btn btn-info btn-block" id="btnNuevoPaciente">Nuevo Paciente</a>
+    </div>
+    
+    <div class="col-md-6">
+      <a href="{{ url_for('consulta.consultaIndex') }}" class="btn btn-primary btn-block" id="btnNuevaCita">Nueva Cita</a>
+    </div>
+  </div>
+  
+
+
+
+<!-- Librerías de jQuery y jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+{% endblock %}
