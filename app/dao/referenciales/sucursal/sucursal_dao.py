@@ -7,8 +7,17 @@ class SucursalDao:
     def get_sucursales(self):
 
         sucursal_sql = """
-        SELECT id_sucursal, descripcion
-        FROM sucursales
+        SELECT
+            s.id_sucursal,
+            s.descripcion AS nombre_sucursal
+        FROM
+            sucursales s
+        WHERE
+            EXISTS (
+                SELECT 1
+                FROM sucursal_depositos sd
+                WHERE sd.id_sucursal = s.id_sucursal
+            )
         """
         # objeto conexion
         conexion = Conexion()
@@ -23,6 +32,38 @@ class SucursalDao:
 
         except Exception as e:
             app.logger.error(f"Error al obtener todas las sucursales: {str(e)}")
+            return []
+
+        finally:
+            cur.close()
+            con.close()
+
+    def get_sucursal_depositos(self, id_sucursal: int):
+
+        sucursal_sql = """
+        SELECT
+            sd.id_deposito
+            , d.descripcion nombre_deposito
+        FROM
+            sucursal_depositos sd
+        LEFT JOIN depositos d
+            ON sd.id_deposito = d.id_deposito
+        WHERE
+            sd.id_sucursal = %s AND sd.estado = true
+        """
+        # objeto conexion
+        conexion = Conexion()
+        con = conexion.getConexion()
+        cur = con.cursor()
+        try:
+            cur.execute(sucursal_sql, (id_sucursal,))
+            sucursales = cur.fetchall() # trae datos de la bd
+
+            # Transformar los datos en una lista de diccionarios
+            return [{'id_deposito': sucursal[0], 'nombre_deposito': sucursal[1]} for sucursal in sucursales]
+
+        except Exception as e:
+            app.logger.error(f"Error al obtener las sucursales con depositos: {str(e)}")
             return []
 
         finally:

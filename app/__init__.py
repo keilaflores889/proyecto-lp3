@@ -95,7 +95,7 @@ from app.rutas.referenciales.diagnostico.diagnostico_api import diagapi
 #pedido de compra
 from app.rutas.gestionar_compras.registrar_pedido_compras.registrar_pedido_compras_api \
     import pdcapi
-
+from app.rutas.referenciales.sucursal.sucursal_api import sucapi
 
 # APIS v1
 #Ciudad
@@ -162,3 +162,4 @@ app.register_blueprint(diagapi, url_prefix=apiversion1)
 # Gestionar compras API
 apiversion1 = '/api/v1'
 app.register_blueprint(pdcapi, url_prefix=f'{apiversion1}/{modulo1}/registrar-pedido-compras')
+app.register_blueprint(sucapi, url_prefix=apiversion1)
