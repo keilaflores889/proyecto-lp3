@@ -3,6 +3,9 @@ from app.dao.referenciales.sexo.SexoDao import SexoDao
 
 sexapi = Blueprint('sexapi', __name__)
 
+# Lista de sexos validos
+TURNOS_SEXOS= ['MAÑANA', 'TARDE', 'NOCHE']
+
 # Trae todas los sexos de las personas
 @sexapi.route('/sexos', methods=['GET'])
 def getSexos():
@@ -69,6 +72,15 @@ def addSexo():
 
     try:
         descripcion = data['descripcion'].upper()
+
+        # Validar si el TURNO está en la lista de TURNOS válidos
+        if descripcion not in TURNOS_SEXOS:
+            return jsonify({
+                'success': False,
+                'error': 'sexo de la persona inválido. Solo se permiten ingresar el sexo Femenino y Masculino.'
+            }), 400
+
+        
         sexo_id = sexodao.guardarSexo(descripcion)
         if sexo_id is not None:
             return jsonify({
@@ -101,6 +113,15 @@ def updateSexo(sexo_id):
                             'error': f'El campo {campo} es obligatorio y no puede estar vacío.'
                             }), 400
     descripcion = data['descripcion']
+
+     # Validar si el TURNO está en la lista de TURNOS válidos
+    if descripcion not in TURNOS_SEXOS:
+            return jsonify({
+                'success': False,
+                'error': 'sexo de la persona inválido. Solo se permiten ingresar el sexo Femenino y Masculino.'
+            }), 400
+
+
     try:
         if sexodao.updateSexo(sexo_id, descripcion.upper()):
             return jsonify({
