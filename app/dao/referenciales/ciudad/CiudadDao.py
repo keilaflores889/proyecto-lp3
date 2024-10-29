@@ -33,7 +33,7 @@ class CiudadDao:
 
         ciudadSQL = """
         SELECT id_ciudad, descripcion
-        FROM ciudades WHERE id=%s
+        FROM ciudades WHERE id_ciudad=%s
         """
         # objeto conexion
         conexion = Conexion()

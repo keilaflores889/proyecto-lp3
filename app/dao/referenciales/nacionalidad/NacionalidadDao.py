@@ -117,7 +117,7 @@ class NacionalidadDao:
 
         updateNacionalidadSQL = """
         DELETE FROM nacionalidades
-        WHERE id_nacionalidades=%s
+        WHERE id=%s
         """
 
         conexion = Conexion()
