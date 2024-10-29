@@ -7,7 +7,7 @@ class NacionalidadDao:
     def getNacionalidades(self):
 
         nacionalidadSQL = """
-        SELECT id, descripcion
+        SELECT id_nacionalidades, descripcion
         FROM nacionalidades
         """
         # objeto conexion
@@ -32,7 +32,7 @@ class NacionalidadDao:
     def getNacionalidadById(self, id):
 
         nacionalidadSQL = """
-        SELECT id, descripcion
+        SELECT id_nacionalidades, descripcion
         FROM nacionalidades WHERE id=%s
         """
         # objeto conexion
@@ -60,7 +60,7 @@ class NacionalidadDao:
     def guardarNacionalidad(self, descripcion):
 
         insertNacionalidadSQL = """
-        INSERT INTO nacionalidades(descripcion) VALUES(%s) RETURNING id
+        INSERT INTO nacionalidades(descripcion) VALUES(%s) RETURNING id_nacionalidades
         """
 
         conexion = Conexion()
@@ -90,7 +90,7 @@ class NacionalidadDao:
         updateNacionalidadSQL = """
         UPDATE nacionalidades
         SET descripcion=%s
-        WHERE id=%s
+        WHERE id_nacionalidades=%s
         """
 
         conexion = Conexion()
@@ -117,7 +117,7 @@ class NacionalidadDao:
 
         updateNacionalidadSQL = """
         DELETE FROM nacionalidades
-        WHERE id=%s
+        WHERE id_nacionalidades=%s
         """
 
         conexion = Conexion()
