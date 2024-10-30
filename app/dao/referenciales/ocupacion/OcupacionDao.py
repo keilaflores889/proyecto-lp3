@@ -33,7 +33,7 @@ class OcupacionDao:
 
         ocupacionSQL = """
         SELECT id_ocupacion, descripcion
-        FROM ocupaciones WHERE id=%s
+        FROM ocupaciones WHERE id_ocupacion=%s
         """
         # objeto conexion
         conexion = Conexion()
