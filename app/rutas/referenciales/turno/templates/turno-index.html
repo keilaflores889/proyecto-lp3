@@ -99,13 +99,13 @@ Turnos
 
   const guardar = () => {
     $('#btnGuardar').on('click', function() {
-      const id_turno = $('#txtIdTurno').val();
+      const idTurno = $('#txtIdTurno').val();
       const nuevaDescripcion = $('#txtDescripcion').val();
       const tabla = $('#tbl').DataTable();
 
-      if(id_turno) {
+      if(idTurno) {
         // update
-        fetch(`/api/v1/turnos/${id_turno}`, {
+        fetch(`/api/v1/turnos/${idTurno}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -160,10 +160,10 @@ Turnos
         if (result.isConfirmed) {
           $('#modalTitle').text("Editar un Turno");
 
-          const id_turno = $(this).data('id');
-          $('#txtIdTurno').val(id_turno);
+          const idTurno = $(this).data('id');
+          $('#txtIdTurno').val(idTurno);
 
-          fetch(`/api/v1/turnos/${id_turno}`, {
+          fetch(`/api/v1/turnos/${idTurno}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ Turnos
 
   const eliminar = () => {
     $('#tbl').on('click', 'button[name="btn_eliminar"]',function(){
-      const id_turno = $(this).data('id');
+      const idTurno = $(this).data('id');
       Swal.fire({
         title: "¿Deseas eliminar este registro?",
         showCancelButton: true,
@@ -189,7 +189,7 @@ Turnos
         cancelButtonText: `No`
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch(`/api/v1/turnos/${id_turno}`, {
+          fetch(`/api/v1/turnos/${idTurno}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'
