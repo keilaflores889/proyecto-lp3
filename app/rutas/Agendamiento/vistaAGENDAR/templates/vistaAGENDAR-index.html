@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block titulo %}
-lp3
+Agenda de Citas Médicas
 {% endblock %}
 
 {% block contenido %}
@@ -9,15 +9,16 @@ lp3
     body {
         font-family: Arial, sans-serif;
         text-align: center;
-        background-color: #f4f4f4;
+        background-color: #f9f9f9;
         margin: 0;
         padding: 0;
     }
-    
+
     h1 {
-        color: #030505;
+        color: #333;
+        margin-top: 20px;
     }
-    
+
     #controls {
         margin: 20px;
         display: flex;
@@ -38,81 +39,123 @@ lp3
 
     #calendar {
         margin: 20px auto;
-        width: 80%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        width: 90%;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
     }
 
-    .day {
-        width: calc(100% / 7);
+    .day, .day-header {
+        background-color: #ffffff;
         border: 1px solid #ddd;
-        padding: 10px;
+        padding: 15px;
         box-sizing: border-box;
+        border-radius: 5px;
         position: relative;
+        cursor: pointer;
     }
-    
-    .day header {
+
+    .day-header {
         font-weight: bold;
-        margin-bottom: 10px;
+        background-color: #297ba0;
+        color: white;
     }
-    
-    #event-form {
-        margin-top: 20px;
+
+    .appointment {
+        background-color: #e0f7fa;
+        color: #00796b;
+        margin-top: 5px;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 12px;
     }
-    
-    form {
-        display: inline-block;
-        text-align: left;
-    }
-    
-    label {
-        display: block;
-        margin: 5px 0;
-    }
-    
-    input, button {
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-    }
-    
-    .row {
-        margin-bottom: 20px;
-    }
-    
-    .btn-block {
-        display: block;
-        width: 100%;
-    }
-    
-    .modify-btn {
+
+    .modify-btn, .delete-btn {
         background-color: #ffcc00;
         border: none;
         cursor: pointer;
-        padding: 5px 10px;
+        padding: 3px 6px;
+        font-size: 10px;
+        color: white;
+        border-radius: 3px;
     }
-    
-    .day-header {
+
+    .delete-btn {
+        background-color: #f44336;
+    }
+
+    /* Estilos para la ventana emergente (modal) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 5px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
         font-weight: bold;
-        border-bottom: 2px solid #ddd;
-        padding: 10px;
-        width: calc(100% / 7);
-        text-align: center;
     }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    form {
+        text-align: left;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input, button {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #297ba0;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
 </style>
 
 <body>
-    <div class="row">
-        <div class="col-md-6">
-            <a href="{{ url_for('paciente.pacienteIndex') }}" class="btn btn-info btn-block" id="btnNuevoPaciente">Nuevo Paciente</a>
-        </div>
-        <div class="col-md-6">
-            <a href="{{ url_for('consulta.consultaIndex') }}" class="btn btn-primary btn-block" id="btnNuevaCita">Nueva Cita</a>
-        </div>
-    </div>
+    <h1>Agenda de Citas Médicas</h1>
 
-    <h1>AGENDA MÉDICA</h1>
+    <!-- Control de navegación del calendario -->
     <div id="controls">
         <button id="prev-month">&lt;</button>
         <select id="month-select"></select>
@@ -120,161 +163,211 @@ lp3
         <button id="next-month">&gt;</button>
     </div>
 
+    <!-- Contenedor del calendario -->
     <div id="calendar"></div>
 
-    <div id="event-form">
-        <h2>Registrar Agenda</h2>
-        <form id="add-event-form">
-            <label for="event-date">Fecha:</label>
-            <input type="date" id="event-date" required><br>
-            <label for="event-name">Nombre del paciente y descripción:</label>
-            <input type="text" id="event-name" required><br>
-            <button type="submit">Registrar</button>
-        </form>
+    <!-- Ventana emergente (modal) para agregar o modificar citas -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Registrar o Modificar Cita</h2>
+            <form id="add-event-form">
+                <label for="event-date">Fecha:</label>
+                <input type="date" id="event-date" required>
+
+                <label for="event-name">Nombre del paciente:</label>
+                <input type="text" id="event-name" required>
+
+                <label for="event-doctor">Doctor:</label>
+                <input type="text" id="event-doctor" required>
+
+                <label for="event-time">Hora:</label>
+                <input type="time" id="event-time" required>
+
+                <button type="submit">Registrar Cita</button>
+            </form>
+        </div>
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const calendar = document.getElementById('calendar');
-          const form = document.getElementById('add-event-form');
-          const eventDate = document.getElementById('event-date');
-          const eventName = document.getElementById('event-name');
-          const monthSelect = document.getElementById('month-select');
-          const yearSelect = document.getElementById('year-select');
-          const prevMonthButton = document.getElementById('prev-month');
-          const nextMonthButton = document.getElementById('next-month');
-
-          let currentDate = new Date();
-          let events = JSON.parse(localStorage.getItem('events')) || [];
-          let currentEditIndex = null;
-
-          // Inicializar el selector de meses
-          const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-          monthNames.forEach((month, index) => {
-              const option = document.createElement('option');
-              option.value = index;
-              option.textContent = month;
-              monthSelect.appendChild(option);
-          });
-
-          // Inicializar el selector de años
-          const currentYear = currentDate.getFullYear();
-          for (let i = currentYear - 50; i <= currentYear + 50; i++) {
-              const option = document.createElement('option');
-              option.value = i;
-              option.textContent = i;
-              if (i === currentYear) {
-                  option.selected = true;
-              }
-              yearSelect.appendChild(option);
-          }
-
-          monthSelect.value = currentDate.getMonth();
-          yearSelect.value = currentDate.getFullYear();
-
-          monthSelect.addEventListener('change', updateCalendar);
-          yearSelect.addEventListener('change', updateCalendar);
-          prevMonthButton.addEventListener('click', () => changeMonth(-1));
-          nextMonthButton.addEventListener('click', () => changeMonth(1));
-
-          form.addEventListener('submit', function(event) {
-              event.preventDefault();
-              const date = new Date(eventDate.value);
-              const day = date.getDate();
-              const month = date.getMonth();
-              const year = date.getFullYear();
-              const name = eventName.value;
-
-              if (day && name) {
-                  if (currentEditIndex !== null) {
-                      events[currentEditIndex] = { day, month, year, name };
-                      currentEditIndex = null;
-                  } else {
-                      events.push({ day, month, year, name });
-                  }
-                  localStorage.setItem('events', JSON.stringify(events));
-                  updateCalendar();
-                  form.reset();
-              } else {
-                  alert('Por favor ingrese una fecha y nombre válido.');
-              }
-          });
-
-          function changeMonth(delta) {
-              let newMonth = parseInt(monthSelect.value) + delta;
-              let newYear = parseInt(yearSelect.value);
-
-              if (newMonth < 0) {
-                  newMonth = 11;
-                  newYear--;
-              } else if (newMonth > 11) {
-                  newMonth = 0;
-                  newYear++;
-              }
-
-              monthSelect.value = newMonth;
-              yearSelect.value = newYear;
-              updateCalendar();
-          }
-
-          function updateCalendar() {
-              const month = parseInt(monthSelect.value);
-              const year = parseInt(yearSelect.value);
-              calendar.innerHTML = '';
-
-              // Días de la semana
-              const weekdays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-              weekdays.forEach(day => {
-                  const dayHeader = document.createElement('div');
-                  dayHeader.classList.add('day-header');
-                  dayHeader.innerText = day;
-                  calendar.appendChild(dayHeader);
-              });
-
-              const firstDay = new Date(year, month, 1).getDay(); // Primer día del mes
-              const daysInMonth = new Date(year, month + 1, 0).getDate(); // Total de días en el mes
-
-              // Espacios vacíos
-              for (let i = 0; i < firstDay; i++) {
-                  const emptyDay = document.createElement('div');
-                  emptyDay.classList.add('day');
-                  calendar.appendChild(emptyDay);
-              }
-
-              // Días del mes
-              for (let i = 1; i <= daysInMonth; i++) {
-                  const day = document.createElement('div');
-                  day.classList.add('day');
-                  day.innerHTML = `<header>${i}</header>`;
-                  calendar.appendChild(day);
-              }
-
-              // Mostrar eventos
-              events.forEach((event, index) => {
-                  if (event.month === month && event.year === year) {
-                      const day = calendar.querySelector(`.day:nth-child(${event.day + firstDay + 8})`);
-                      if (day) {
-                          day.innerHTML += `<div>${event.name} <button class="modify-btn" data-index="${index}">Modificar</button></div>`;
-                      }
-                  }
-              });
-
-              // Botones de modificar
-              const modifyButtons = document.querySelectorAll('.modify-btn');
-              modifyButtons.forEach(button => {
-                  button.addEventListener('click', (e) => {
-                      const index = e.target.getAttribute('data-index');
-                      const eventToEdit = events[index];
-
-                      eventDate.value = `${eventToEdit.year}-${String(eventToEdit.month + 1).padStart(2, '0')}-${String(eventToEdit.day).padStart(2, '0')}`;
-                      eventName.value = eventToEdit.name;
-                      currentEditIndex = index;  
-                  });
-              });
-          }
-
-          updateCalendar();
-      });
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendar = document.getElementById('calendar');
+            const modal = document.getElementById('myModal');
+            const closeModalButton = document.querySelector('.close');
+            const form = document.getElementById('add-event-form');
+            const eventDate = document.getElementById('event-date');
+            const eventName = document.getElementById('event-name');
+            const eventDoctor = document.getElementById('event-doctor');
+            const eventTime = document.getElementById('event-time');
+            const monthSelect = document.getElementById('month-select');
+            const yearSelect = document.getElementById('year-select');
+            const prevMonthButton = document.getElementById('prev-month');
+            const nextMonthButton = document.getElementById('next-month');
+        
+            let currentDate = new Date();
+            let events = JSON.parse(localStorage.getItem('events')) || [];
+            let currentEditIndex = null;
+        
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            monthNames.forEach((month, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = month;
+                monthSelect.appendChild(option);
+            });
+        
+            const currentYear = currentDate.getFullYear();
+            for (let i = currentYear - 50; i <= currentYear + 50; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                if (i === currentYear) {
+                    option.selected = true;
+                }
+                yearSelect.appendChild(option);
+            }
+        
+            monthSelect.value = currentDate.getMonth();
+            yearSelect.value = currentDate.getFullYear();
+        
+            monthSelect.addEventListener('change', updateCalendar);
+            yearSelect.addEventListener('change', updateCalendar);
+            prevMonthButton.addEventListener('click', () => changeMonth(-1));
+            nextMonthButton.addEventListener('click', () => changeMonth(1));
+        
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const date = new Date(eventDate.value);
+                const day = date.getDate();
+                const month = date.getMonth();
+                const year = date.getFullYear();
+                const name = eventName.value;
+                const doctor = eventDoctor.value;
+                const time = eventTime.value;
+        
+                if (day && name && doctor && time) {
+                    if (currentEditIndex !== null) {
+                        // Modificar el evento existente
+                        events[currentEditIndex] = { day, month, year, name, doctor, time };
+                        currentEditIndex = null;
+                    } else {
+                        // Agregar un nuevo evento
+                        events.push({ day, month, year, name, doctor, time });
+                    }
+                    localStorage.setItem('events', JSON.stringify(events));
+                    updateCalendar();
+                    form.reset();
+                    modal.style.display = 'none';
+                } else {
+                    alert('Por favor ingrese todos los datos de la cita.');
+                }
+            });
+        
+            closeModalButton.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+        
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        
+            function changeMonth(offset) {
+                currentDate.setMonth(currentDate.getMonth() + offset);
+                updateCalendar();
+            }
+        
+            function updateCalendar() {
+                const selectedMonth = parseInt(monthSelect.value);
+                const selectedYear = parseInt(yearSelect.value);
+        
+                const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
+                const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+        
+                calendar.innerHTML = '';
+        
+                const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+                daysOfWeek.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'day-header';
+                    dayHeader.textContent = day;
+                    calendar.appendChild(dayHeader);
+                });
+        
+                for (let i = 0; i < firstDay; i++) {
+                    calendar.appendChild(document.createElement('div'));
+                }
+        
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const day = document.createElement('div');
+                    day.className = 'day';
+                    day.textContent = i;
+        
+                    const date = new Date(selectedYear, selectedMonth, i);
+                    const existingEvent = events.find(event => event.day === i && event.month === selectedMonth && event.year === selectedYear);
+        
+                    if (existingEvent) {
+                        const eventElement = document.createElement('div');
+                        eventElement.className = 'appointment';
+                        eventElement.textContent = `${existingEvent.name} - ${existingEvent.time}`;
+                        const modifyButton = document.createElement('button');
+                        modifyButton.className = 'modify-btn';
+                        modifyButton.textContent = 'Editar';
+                        modifyButton.addEventListener('click', function() {
+                            eventDate.value = formatDateForInput(existingEvent.year, existingEvent.month, existingEvent.day);
+                            eventName.value = existingEvent.name;
+                            eventDoctor.value = existingEvent.doctor;
+                            eventTime.value = existingEvent.time;
+                            currentEditIndex = events.indexOf(existingEvent);
+                            modal.style.display = 'block';
+                        });
+                        const deleteButton = document.createElement('button');
+                        deleteButton.className = 'delete-btn';
+                        deleteButton.textContent = 'Eliminar';
+                        deleteButton.addEventListener('click', function() {
+                            events = events.filter(event => event !== existingEvent);
+                            localStorage.setItem('events', JSON.stringify(events));
+                            updateCalendar();
+                        });
+                        eventElement.appendChild(modifyButton);
+                        eventElement.appendChild(deleteButton);
+                        day.appendChild(eventElement);
+                    }
+        
+                    day.addEventListener('click', function() {
+                        eventDate.value = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                        const existingEvent = events.find(event => event.day === i && event.month === selectedMonth && event.year === selectedYear);
+                        if (existingEvent) {
+                            eventName.value = existingEvent.name;
+                            eventDoctor.value = existingEvent.doctor;
+                            eventTime.value = existingEvent.time;
+                            currentEditIndex = events.indexOf(existingEvent);
+                        } else {
+                            form.reset();
+                            currentEditIndex = null;
+                        }
+                        modal.style.display = 'block';
+                    });
+        
+                    calendar.appendChild(day);
+                }
+            }
+        
+            function formatDateForInput(year, month, day) {
+                let date = new Date(year, month, day);
+                // Asegurarse de que la fecha se ajusta correctamente a la zona horaria local sin ajuste automático.
+                const localOffset = date.getTimezoneOffset(); // Obtiene la diferencia en minutos respecto al UTC
+                date.setMinutes(date.getMinutes() - localOffset); // Ajusta la fecha para la zona horaria local
+                return date.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
+            }
+        
+            updateCalendar();
+        });
+        
+        
     </script>
+
 </body>
+
 {% endblock %}
